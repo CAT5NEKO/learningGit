@@ -13,9 +13,9 @@ jobs:
     - name: Check Commit Messages
       run: |
         PR_TITLE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" ${{ github.api_url }}/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} | jq -r .title)
-        if [[ $PR_TITLE == *"にゃん" ]]; then
+        if [[ "$PR_TITLE" == *"にゃん"* ]]; then
           echo "Commit message is valid."
         else
-          echo "コミットメッセージの語尾は「にゃん」にしてください。ご協力のほどよろしくお願いします。"
+          echo "Commit message does not meet the requirements. Failing the job."
           exit 1
-        }
+        fi
