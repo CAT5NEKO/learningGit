@@ -1,0 +1,21 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  validate_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check Commit Messages
+      run: |
+        PR_TITLE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" ${{ github.api_url }}/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} | jq -r .title)
+        if [[ $PR_TITLE == *"にゃん" ]]; then
+          echo "PRは正常に受け付けました。"
+        else
+          echo "PRを行うには、コミットメッセージの語尾に「にゃん」をつけてください。"
+          exit 1
+        fi
