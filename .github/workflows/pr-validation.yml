@@ -14,8 +14,8 @@ jobs:
       run: |
         PR_TITLE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" ${{ github.api_url }}/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} | jq -r .title)
         if [[ $PR_TITLE == *"にゃん" ]]; then
-          echo "PRは正常に受け付けました。"
+          echo "Commit message is valid."
         else
-          echo "PRを行うには、コミットメッセージの語尾に「にゃん」をつけてください。"
+          echo "コミットメッセージの語尾は「にゃん」にしてください。ご協力のほどよろしくお願いします。"
           exit 1
-        fi
+        }
